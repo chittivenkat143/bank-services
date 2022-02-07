@@ -1,0 +1,9 @@
+SonarQube
+
+Token
+bank-service : b99dcf43a758676d83216c0507eb59cf8de0c395
+
+mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=b99dcf43a758676d83216c0507eb59cf8de0c395
+
+
+Total Amount of Credit and Debit for AccountNumber

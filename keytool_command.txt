@@ -1,0 +1,32 @@
+keytool -genkeypair -alias bank-service -keyalg RSA -keysize 4096 -storetype PKCS12 -keystore bank-service.p12 -validity 3650 -storepass hcl-bank-service
+
+keytool -delete -alias bank-service -keystore bank-service.p12
+
+keytool -export -keystore bank-service.p12 -alias bank-service -file bank-service.crt
+
+keytool -importcert -file bank-service.crt -alias bank-service -keystore "%JAVA_HOME%"/lib/security/cacerts
+password: changeit
+
+keytool -delete -alias bank-service -keystore springboot.p12
+
+
+Endpoints:
+User should be able to open Savings/ Current/ Laon account by giving information like Name, phone No, email Id, account type,
+And initial deposit
+
+User should be able to see his/her personal and account details
+User should be able to update his/her personal details
+User should be able to transfer fund from one account to another account.
+User should be able to see his/her last transactions by month
+
+
+For above APIs
+  Add all necessary validations
+  Handle Validation and Business Exceptions
+  Add Loggers and comments
+  Transaction management
+  Java 8 features need to used where ever possible
+  Unit testing for both Controller and Service classes
+  
+  
+ 
