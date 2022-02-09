@@ -39,7 +39,7 @@ public class Account {
 	@CreationTimestamp
 	@Column(name = "accountCreatedOn", updatable = false)
 	private LocalDateTime accountCreatedOn;
-	
+
 	@UpdateTimestamp
 	@Column(name = "accountUpdatedOn")
 	private LocalDateTime accountUpdatedOn;

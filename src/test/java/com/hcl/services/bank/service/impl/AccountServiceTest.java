@@ -40,35 +40,35 @@ import com.hcl.services.bank.utils.MapperHelper;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
-	
+
 	@Mock
 	private AccountRepository repository;
-	
+
 	@Mock
 	private AccountTypeRepository repositoryAT;
-	
+
 	@Mock
 	private CustomerRepository repositoryCus;
-	
+
 	@Mock
 	private MapperHelper mapper;
-	
+
 	@InjectMocks
 	private AccountService service;
-	
+
 	List<Account> accounts = new ArrayList<>();
-	
+
 	private AccountRequestDTO accountRequestDto;
 	private Account account;
 	private Customer customer;
 	private AccountType accountType;
-	
+
 	@Mock(answer = Answers.RETURNS_DEEP_STUBS)
 	Faker faker;// = Mockito.mock(Faker.class, RETURNS_DEEP_STUBS);
-	
+
 	@Mock
 	Number number;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
 		accountRequestDto = new AccountRequestDTO();
@@ -86,31 +86,31 @@ class AccountServiceTest {
 		accountType = new AccountType();
 		accountType.setAccountCode(1001l);
 		account.setAccountType(accountType);
-		
-		accounts.add(account);		
+
+		accounts.add(account);
 	}
-	
+
 	@Test
 	@DisplayName("Save Account: Positive")
 	final void testSaveAccount_PC() {
-			
+
 		when(repositoryCus.findById(10001l)).thenReturn(Optional.of(customer));
 		when(repositoryAT.findById(1001l)).thenReturn(Optional.of(accountType));
 		when(mapper.toAccountEntity(accountRequestDto)).thenReturn(account);
 		when(faker.number().digits(12)).thenReturn(String.valueOf("475512388322"));
 		String accountNumber = faker.number().digits(12);
-		when(repository.save(account)).thenAnswer(c->{
+		when(repository.save(account)).thenAnswer(c -> {
 			Account account = new Account();
 			account.setAccountId(100010l);
 			account.setAccountNumber(accountNumber);
 			return account;
 		});
-		
+
 		Account account = service.saveOrUpdateAccount(accountRequestDto);
-		assertAll("account", ()->assertEquals(100010l, account.getAccountId()),
-				()->assertEquals(accountNumber, account.getAccountNumber()));
+		assertAll("account", () -> assertEquals(100010l, account.getAccountId()),
+				() -> assertEquals(accountNumber, account.getAccountNumber()));
 	}
-	
+
 	@Test
 	@DisplayName("Update Account: Positive")
 	final void testUpdateAccount_PC() {
@@ -121,8 +121,8 @@ class AccountServiceTest {
 		when(mapper.toAccountEntity(accountRequestDto)).thenReturn(account);
 		when(repository.save(account)).thenReturn(account);
 		Account acct = service.saveOrUpdateAccount(accountRequestDto);
-		assertAll("accountUpdate", ()->assertEquals(100010l, acct.getAccountId()),
-				()->assertEquals(250000.0, acct.getAccountBalance()));
+		assertAll("accountUpdate", () -> assertEquals(100010l, acct.getAccountId()),
+				() -> assertEquals(250000.0, acct.getAccountBalance()));
 	}
 
 	@Test
@@ -131,16 +131,16 @@ class AccountServiceTest {
 		account.setAccountId(100010l);
 		when(repository.findById(100010l)).thenReturn(Optional.of(account));
 		Account acct = service.getAccountById(100010l);
-		assertAll("accountGet", ()->assertEquals(100010l, acct.getAccountId()),
-				()->assertEquals(10000.0, acct.getAccountBalance()));
+		assertAll("accountGet", () -> assertEquals(100010l, acct.getAccountId()),
+				() -> assertEquals(10000.0, acct.getAccountBalance()));
 	}
-	
+
 	@Test
 	@DisplayName("Get Account By Id: Negative")
 	final void testGetAccountById_NC() {
 		account.setAccountId(100010l);
 		when(repository.findById(100011l)).thenThrow(new ResourceNotFoundException("Account Not Found"));
-		assertThrows(ResourceNotFoundException.class, ()->service.getAccountById(100011l));
+		assertThrows(ResourceNotFoundException.class, () -> service.getAccountById(100011l));
 	}
 
 	@Test
@@ -149,15 +149,15 @@ class AccountServiceTest {
 		account.setAccountId(100010l);
 		when(repository.findByAccountNumber(anyString())).thenReturn(Optional.of(account));
 		Account acct = service.getAccountByAccountNumber("565546443699");
-		assertAll("accountGetNum", ()->assertEquals(100010l, acct.getAccountId()),
-				()->assertEquals(10000.0, acct.getAccountBalance()));
+		assertAll("accountGetNum", () -> assertEquals(100010l, acct.getAccountId()),
+				() -> assertEquals(10000.0, acct.getAccountBalance()));
 	}
-	  
+
 	@Test
 	@DisplayName("Get Account By AccountNumber: Negative")
 	final void testGetAccountByAccountNumber_NC() {
 		when(repository.findByAccountNumber(anyString())).thenThrow(new ResourceNotFoundException("Account Not Found"));
-		assertThrows(ResourceNotFoundException.class, ()->service.getAccountByAccountNumber("565546443699"));
+		assertThrows(ResourceNotFoundException.class, () -> service.getAccountByAccountNumber("565546443699"));
 	}
 
 	@Test
@@ -165,16 +165,16 @@ class AccountServiceTest {
 	final void testGetAccountsByAccountType_PC() {
 		when(repositoryAT.findById(1001l)).thenReturn(Optional.of(accountType));
 		when(repository.findByAccountType(accountType)).thenReturn(accounts);
-		
+
 		List<Account> accR = service.getAccountsByAccountType(1001l);
-		assertEquals(1, accR.size());		
+		assertEquals(1, accR.size());
 	}
-	
+
 	@Test
 	@DisplayName("Get Accounts By AccountType: Negative")
 	final void testGetAccountsByAccountType_NC() {
 		when(repositoryAT.findById(1001l)).thenThrow(new ResourceNotFoundException("AccountType Not Found"));
-		assertThrows(ResourceNotFoundException.class, ()->service.getAccountsByAccountType(1001l));
+		assertThrows(ResourceNotFoundException.class, () -> service.getAccountsByAccountType(1001l));
 	}
 
 	@Disabled

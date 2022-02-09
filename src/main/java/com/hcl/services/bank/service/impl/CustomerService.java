@@ -23,7 +23,7 @@ public class CustomerService implements ICustomerService {
 
 	@Autowired
 	private CustomerRepository repository;
-	
+
 	@Autowired
 	private MapperHelper mapper;
 
@@ -41,11 +41,11 @@ public class CustomerService implements ICustomerService {
 		return repository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found ID:" + customerId));
 	}
-	
+
 	@Override
-	public List<Customer> getCustomersByType(Integer customerType){
+	public List<Customer> getCustomersByType(Integer customerType) {
 		logger.info("CS:getCustomersByType:\t" + customerType);
-		return Collections.emptyList();//repository.findByCustomerType(customerType);
+		return Collections.emptyList();// repository.findByCustomerType(customerType);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class CustomerService implements ICustomerService {
 		return repository.findCustomerByCustomerMobile(mobileNo)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found By Mobile:" + mobileNo));
 	}
-	
+
 	@Override
 	public CustomerViewOpenProj getCustomerByEmail(String email) {
 		logger.info("CS:getCustomerByEmail:\t" + email);

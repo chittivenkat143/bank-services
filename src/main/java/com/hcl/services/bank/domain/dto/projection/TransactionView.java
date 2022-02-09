@@ -7,11 +7,18 @@ import com.hcl.services.bank.domain.Transaction.TxnType;
 
 public interface TransactionView {
 	public Long getTransactionId();
+
 	public String getTransactionNumber();
+
 	public Date getTransactionOn();
+
 	public Double getTransactionAmount();
+
 	public TxnType getTransactionType();
+
 	public AccountView getTransactionAccountId();
+
 	public String getTransactionAccountNumber();
+
 	public State getTransactionstate();
 }

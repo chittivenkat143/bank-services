@@ -5,15 +5,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class BankServicesApplicationTests {
-	
-	//@Mock
-	//ConfigurableApplicationContext context;
+
+	// @Mock
+	// ConfigurableApplicationContext context;
 
 	@Test
 	void contextLoads() {
 		System.out.println("Test Done");
 	}
-	
+
 //	@BeforeEach
 //	void setUp() throws Exception {
 //		context = new ClassPathXmlApplicationContext("pathtoxml.xml");

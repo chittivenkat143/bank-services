@@ -59,7 +59,7 @@ public class MapperHelper {
 	}
 
 	public TransactionDto toTransactionDto(Transaction transaction) {
-		TransactionDto transactionDto = null;//new TransactionDto();
+		TransactionDto transactionDto = null;// new TransactionDto();
 		mapper.map(transaction, transactionDto);
 		return transactionDto;
 	}

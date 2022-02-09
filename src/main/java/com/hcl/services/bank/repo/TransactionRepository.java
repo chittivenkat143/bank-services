@@ -18,15 +18,22 @@ import com.hcl.services.bank.domain.dto.TransactionDto;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-	
+
 	List<Transaction> findAllByTransactionAccountId(Long accountId);
 
 	List<Transaction> findAllByTransactionNumber(String transactionNumber);
 
 	@Lock(LockModeType.PESSIMISTIC_READ)
-	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
-	Optional<Transaction> findByTransactionNumberAndTransactionAccountNumber(String transactionNumber, String accountNumber);
+	@QueryHints({ @QueryHint(name = "javax.persistence.lock.timeout", value = "3000") })
+	Optional<Transaction> findByTransactionNumberAndTransactionAccountNumber(String transactionNumber,
+			String accountNumber);
 
-	//@Query("SELECT new com.hcl.services.bank.domain.dto.TransactionDto(t.transactionId, t.transactionNumber, t.transactionOn, t.transactionAmount, t.transactionType, t.transactionAccountId, t.transactionAccountNumber, t.transactionstate) FROM Transaction t WHERE t.transactionAccountNumber= :transactionAccountNumber AND t.transactionOn BETWEEN :fromDate AND :toDate")
-	List<TransactionDto> findAllByTransactionAccountNumberAndTransactionOnBetween(String transactionAccountNumber, Date fromDate, Date toDate);
+	// @Query("SELECT new
+	// com.hcl.services.bank.domain.dto.TransactionDto(t.transactionId,
+	// t.transactionNumber, t.transactionOn, t.transactionAmount, t.transactionType,
+	// t.transactionAccountId, t.transactionAccountNumber, t.transactionstate) FROM
+	// Transaction t WHERE t.transactionAccountNumber= :transactionAccountNumber AND
+	// t.transactionOn BETWEEN :fromDate AND :toDate")
+	List<TransactionDto> findAllByTransactionAccountNumberAndTransactionOnBetween(String transactionAccountNumber,
+			Date fromDate, Date toDate);
 }

@@ -16,7 +16,7 @@ public interface ITransactionService {
 	public List<Transaction> getTransactionByAccountId(Long accountId);
 
 	public List<Transaction> getTransactionByTransactionNumber(String transactionNumber);
-	
+
 	public TransactionResponseDTO buildTransaction(TransactionRequestDTO transactionDto);
 
 	public List<TransactionDto> getTransactionsBetweenDates(TransactionRequestDateDto transactionDto);

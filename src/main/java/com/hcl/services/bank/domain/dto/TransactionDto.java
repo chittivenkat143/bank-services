@@ -7,9 +7,9 @@ import com.hcl.services.bank.domain.Account;
 import com.hcl.services.bank.domain.Transaction.State;
 import com.hcl.services.bank.domain.Transaction.TxnType;
 
-public class TransactionDto implements Serializable{
+public class TransactionDto implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long transactionId;
 	private String transactionNumber;
 	private Date transactionOn;
@@ -18,7 +18,7 @@ public class TransactionDto implements Serializable{
 	private Account transactionAccountId;
 	private String transactionAccountNumber;
 	private State transactionstate;
-	
+
 	public TransactionDto(Long transactionId, String transactionNumber, Date transactionOn, Double transactionAmount,
 			TxnType transactionType, Account transactionAccountId, String transactionAccountNumber,
 			State transactionstate) {
@@ -95,5 +95,5 @@ public class TransactionDto implements Serializable{
 	public void setTransactionstate(State transactionstate) {
 		this.transactionstate = transactionstate;
 	}
-	
+
 }

@@ -11,8 +11,8 @@ public class AccountRequestDTO {
 
 	private Long accountId;
 
-	//@NotNull(message = "Provide account number")
-	//@Size(min = 10)
+	// @NotNull(message = "Provide account number")
+	// @Size(min = 10)
 	private String accountNumber;
 
 	@NotNull(message = "Provide Account Code")

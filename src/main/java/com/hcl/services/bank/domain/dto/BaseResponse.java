@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
-public class BaseResponse extends ResponseEntity<Object>{
-	
+public class BaseResponse extends ResponseEntity<Object> {
+
 	private HttpStatus status;
 	private MultiValueMap<String, String> headersValues;
 	private Object response;

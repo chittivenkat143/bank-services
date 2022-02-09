@@ -58,7 +58,7 @@ public class CustomerController {
 			throw new BaseException("Customer not Found");
 		}
 	}
-	
+
 	@GetMapping("/mobile/{mobileNo}")
 	public BaseResponse getCustomersByCustomerMobile(@PathVariable String mobileNo) {
 		CustomerView customerDto = customerService.getCustomerByCustomerMobile(mobileNo);
@@ -70,7 +70,7 @@ public class CustomerController {
 		List<CustomerView> customerDto = customerService.getCustomersByCustomerType(customerType);
 		return new BaseResponse(customerDto, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/email/{email}")
 	public BaseResponse getCustomersByEmail(@PathVariable String email) {
 		CustomerViewOpenProj customerDto = customerService.getCustomerByEmail(email);

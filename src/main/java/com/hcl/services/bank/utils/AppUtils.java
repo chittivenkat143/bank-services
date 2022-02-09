@@ -7,15 +7,17 @@ import org.springframework.validation.BindingResult;
 
 public class AppUtils {
 	private static AppUtils instance;
-	
-	private AppUtils() {}
+
+	private AppUtils() {
+	}
 
 	public static AppUtils getInstance() {
-		return instance==null ? new AppUtils() : instance;
+		return instance == null ? new AppUtils() : instance;
 	}
-	
-	public List<String> getBindingResultToStrings(BindingResult errors){
-		return errors.getAllErrors().stream().map(e -> e.getCode() + ":" + e.getDefaultMessage()).collect(Collectors.toList());
+
+	public List<String> getBindingResultToStrings(BindingResult errors) {
+		return errors.getAllErrors().stream().map(e -> e.getCode() + ":" + e.getDefaultMessage())
+				.collect(Collectors.toList());
 	}
-	
+
 }

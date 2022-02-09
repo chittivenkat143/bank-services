@@ -31,7 +31,7 @@ public class AccountType {
 
 	@Column(name = "accountDescription")
 	private String accountDescription;
-	
+
 	@OneToMany(mappedBy = "accountType")
 	@JsonBackReference
 	private List<Account> accounts;

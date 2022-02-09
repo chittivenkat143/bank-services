@@ -12,11 +12,11 @@ import com.hcl.services.bank.domain.dto.projection.CustomerViewOpenProj;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-	//List<Customer> findByCustomerType(Integer customerType);
+	// List<Customer> findByCustomerType(Integer customerType);
 
 	Optional<CustomerView> findCustomerByCustomerMobile(String mobileNo);
-	
+
 	CustomerViewOpenProj findByCustomerEmail(String customerEmail);
-	
+
 	List<CustomerView> findByCustomerType(Integer type);
 }

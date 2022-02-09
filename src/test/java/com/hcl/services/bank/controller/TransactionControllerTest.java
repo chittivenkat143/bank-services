@@ -30,22 +30,22 @@ import com.hcl.services.bank.exception.InsufficientBalanceException;
 import com.hcl.services.bank.exception.ResourceNotFoundException;
 import com.hcl.services.bank.service.impl.TransactionService;
 
-@ExtendWith({MockitoExtension.class})
+@ExtendWith({ MockitoExtension.class })
 class TransactionControllerTest {
-	
+
 	@Mock
 	private TransactionService service;
-	
+
 	@Mock
 	private BindingResult errors;
-	
+
 	@InjectMocks
 	private TransactionController controller;
-	
+
 	TransactionRequestDTO transactionRequestDTO;
 	TransactionResponseDTO transactionResponseDTO;
 	TransactionRequestDateDto transactionRequestDateDto;
-	
+
 	List<Transaction> transcations = new ArrayList<>();
 
 	@BeforeEach
@@ -54,12 +54,12 @@ class TransactionControllerTest {
 		transactionRequestDTO.setAccountNumberDebit("565546443633");
 		transactionRequestDTO.setAccountNumberCredit("565546443699");
 		transactionRequestDTO.setTransactionAmount(1000.0d);
-		
+
 		transactionResponseDTO = new TransactionResponseDTO();
 		transactionResponseDTO.setAmount(1000.0d);
 		transactionResponseDTO.setTxnNumber("c2e1bf41-1469-4ceb-8026-3a177729bba0");
 		transactionResponseDTO.setTxnState("COMPLETED");
-		
+
 		Transaction transactionDebit = new Transaction();
 		Account accountD = new Account();
 		accountD.setAccountId(100001l);
@@ -73,7 +73,7 @@ class TransactionControllerTest {
 		transactionDebit.setTransactionOn(null);
 		transactionDebit.setTransactionstate(Transaction.State.COMPLETE);
 		transactionDebit.setTransactionType(Transaction.TxnType.DEBIT);
-		
+
 		Transaction transactionCredit = new Transaction();
 		Account accountC = new Account();
 		accountC.setAccountId(100002l);
@@ -87,7 +87,7 @@ class TransactionControllerTest {
 		transactionCredit.setTransactionOn(null);
 		transactionCredit.setTransactionstate(Transaction.State.COMPLETE);
 		transactionCredit.setTransactionType(Transaction.TxnType.CREDIT);
-		
+
 		transcations.add(transactionDebit);
 		transcations.add(transactionCredit);
 	}
@@ -98,11 +98,10 @@ class TransactionControllerTest {
 		when(service.buildTransaction(transactionRequestDTO)).thenReturn(transactionResponseDTO);
 		BaseResponse baseResponse = controller.saveOrUpdateTransaction(transactionRequestDTO, errors);
 		TransactionResponseDTO txnResponseDTO = (TransactionResponseDTO) baseResponse.getResponse();
-		assertAll("saveTxn", ()->assertEquals(1000.0, txnResponseDTO.getAmount()),
-				()->assertEquals("c2e1bf41-1469-4ceb-8026-3a177729bba0", txnResponseDTO.getTxnNumber()),
-				()->assertEquals("COMPLETED", txnResponseDTO.getTxnState()));
+		assertAll("saveTxn", () -> assertEquals(1000.0, txnResponseDTO.getAmount()),
+				() -> assertEquals("c2e1bf41-1469-4ceb-8026-3a177729bba0", txnResponseDTO.getTxnNumber()),
+				() -> assertEquals("COMPLETED", txnResponseDTO.getTxnState()));
 	}
-	
 
 	@Test
 	@DisplayName("Save Or Update Transaction: Negative")
@@ -113,19 +112,21 @@ class TransactionControllerTest {
 		assertEquals("Transaction got failed", message);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, baseResponse.getStatus());
 	}
-	
+
 	@Test
 	@DisplayName("Insufficient Balance Exception : Negative")
 	final void testSaveOrUpdateTransaction_InsufficientBalance_NC() {
-		when(service.buildTransaction(transactionRequestDTO)).thenThrow(new InsufficientBalanceException("Insufficient balance for the transaction"));
-		assertThrows(InsufficientBalanceException.class, ()->service.buildTransaction(transactionRequestDTO));
+		when(service.buildTransaction(transactionRequestDTO))
+				.thenThrow(new InsufficientBalanceException("Insufficient balance for the transaction"));
+		assertThrows(InsufficientBalanceException.class, () -> service.buildTransaction(transactionRequestDTO));
 	}
-	
+
 	@Test
 	@DisplayName("Account not found : Negative")
 	final void testSaveOrUpdateTransaction_Exce_NC() {
-		when(service.buildTransaction(transactionRequestDTO)).thenThrow(new ResourceNotFoundException("Account not Found"));
-		assertThrows(ResourceNotFoundException.class, ()->service.buildTransaction(transactionRequestDTO));
+		when(service.buildTransaction(transactionRequestDTO))
+				.thenThrow(new ResourceNotFoundException("Account not Found"));
+		assertThrows(ResourceNotFoundException.class, () -> service.buildTransaction(transactionRequestDTO));
 	}
 
 	@Test
@@ -136,7 +137,7 @@ class TransactionControllerTest {
 		List<Transaction> txns = (List<Transaction>) baseResponse.getResponse();
 		assertEquals(2, txns.size());
 	}
-	
+
 	@Test
 	@DisplayName("Get Transaction By Number: Negative")
 	final void testGetTransactionByNumber_NC() {
@@ -154,7 +155,7 @@ class TransactionControllerTest {
 		List<Transaction> txns = (List<Transaction>) baseResponse.getResponse();
 		assertEquals(2, txns.size());
 	}
-	
+
 	@Test
 	@DisplayName("Get Transaction By AccountId: Negative")
 	final void testGetTransactionByAccountId_NC() {
@@ -169,19 +170,22 @@ class TransactionControllerTest {
 	final void testGetTransactionsBetweenDates() {
 		transactionRequestDateDto = new TransactionRequestDateDto();
 		List<TransactionDto> transactionDtos = new ArrayList<>();
-		TransactionDto tDto = new TransactionDto(100001l, "c2e1bf41-1469-4ceb-8026-3a177729bba0", null, 1000.0, Transaction.TxnType.CREDIT, new Account(), "", Transaction.State.COMPLETE);
-		TransactionDto tDto1 = new TransactionDto(100011l, "c2e1bf41-1469-4ceb-8026-3ffs888df4s8d", null, 1000.0, Transaction.TxnType.DEBIT, new Account(), "", Transaction.State.COMPLETE);
-		TransactionDto tDto2 = new TransactionDto(100012l, "c2e1bf44-1469-5ceb-8026-3ffs888df5ghd", null, 1000.0, Transaction.TxnType.CREDIT, new Account(), "", Transaction.State.COMPLETE);
+		TransactionDto tDto = new TransactionDto(100001l, "c2e1bf41-1469-4ceb-8026-3a177729bba0", null, 1000.0,
+				Transaction.TxnType.CREDIT, new Account(), "", Transaction.State.COMPLETE);
+		TransactionDto tDto1 = new TransactionDto(100011l, "c2e1bf41-1469-4ceb-8026-3ffs888df4s8d", null, 1000.0,
+				Transaction.TxnType.DEBIT, new Account(), "", Transaction.State.COMPLETE);
+		TransactionDto tDto2 = new TransactionDto(100012l, "c2e1bf44-1469-5ceb-8026-3ffs888df5ghd", null, 1000.0,
+				Transaction.TxnType.CREDIT, new Account(), "", Transaction.State.COMPLETE);
 		transactionDtos.add(tDto);
 		transactionDtos.add(tDto1);
 		transactionDtos.add(tDto2);
-				
+
 		when(service.getTransactionsBetweenDates(transactionRequestDateDto)).thenReturn(transactionDtos);
 		BaseResponse baseResponse = controller.getTransactionsBetweenDates(transactionRequestDateDto, errors);
 		List<TransactionDto> transactionDtosRe = (List<TransactionDto>) baseResponse.getResponse();
 		assertEquals(3, transactionDtosRe.size());
 	}
-	
+
 	@Test
 	@DisplayName("Get Transactions Between Dates: Negative")
 	final void testGetTransactionsBetweenDates_NC() {

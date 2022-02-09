@@ -128,12 +128,12 @@ class AccountControllerTest {
 				() -> assertEquals("565546443699", accountR.getAccountNumber()),
 				() -> assertEquals(accountType, accountR.getAccountType()));
 	}
-	
+
 	@Test
 	@DisplayName("Get Account By Id : Negative")
 	final void testGetAccountById_NC() {
 		when(accountService.getAccountById(anyLong())).thenThrow(new ResourceNotFoundException("Account Not Found"));
-		assertThrows(ResourceNotFoundException.class, ()->accountController.getAccountById(100002l));
+		assertThrows(ResourceNotFoundException.class, () -> accountController.getAccountById(100002l));
 	}
 
 	@Test
@@ -149,12 +149,13 @@ class AccountControllerTest {
 				() -> assertEquals("565546443699", accountR.getAccountNumber()),
 				() -> assertEquals(accountType, accountR.getAccountType()));
 	}
-	
+
 	@Test
 	@DisplayName("Get Account By Number : Negative")
 	final void testGetAccountByNumber_NC() {
-		when(accountService.getAccountByAccountNumber(anyString())).thenThrow(new ResourceNotFoundException("Account Not Found"));
-		assertThrows(ResourceNotFoundException.class, ()->accountController.getAccountByNumber("565546443699"));
+		when(accountService.getAccountByAccountNumber(anyString()))
+				.thenThrow(new ResourceNotFoundException("Account Not Found"));
+		assertThrows(ResourceNotFoundException.class, () -> accountController.getAccountByNumber("565546443699"));
 	}
 
 	@Test
@@ -168,18 +169,19 @@ class AccountControllerTest {
 		assertEquals(HttpStatus.OK, baseResponse.getStatus());
 		assertEquals(1, accountR.size());
 	}
-	
+
 	@Test
 	@DisplayName("Get Accounts By AccountType : Negative")
 	final void testGetAccountsByAccountType_NC() {
-		when(accountService.getAccountsByAccountType(anyLong())).thenThrow(new ResourceNotFoundException("Account Not Found"));
-		assertThrows(ResourceNotFoundException.class, ()->accountController.getAccountsByAccountType(1001l));
+		when(accountService.getAccountsByAccountType(anyLong()))
+				.thenThrow(new ResourceNotFoundException("Account Not Found"));
+		assertThrows(ResourceNotFoundException.class, () -> accountController.getAccountsByAccountType(1001l));
 	}
 
 	@Test
 	@DisplayName("Get Accunt DTO By Account Id: Positive")
 	final void testGetAccountDtoById() {
-		//when(accountService.getAccountDtoById(anyLong())).thenReturn(null);
+		// when(accountService.getAccountDtoById(anyLong())).thenReturn(null);
 		BaseResponse baseR = accountController.getAccountDtoById(100002l);
 		assertEquals(HttpStatus.OK, baseR.getStatus());
 	}

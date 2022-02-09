@@ -64,12 +64,12 @@ public class AccountController {
 		List<Account> accounts = accountService.getAccountsByAccountType(accountType);
 		return new BaseResponse(accounts, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/dto/{accountId}")
 	public BaseResponse getAccountDtoById(@PathVariable Long accountId) {
 		logger.info("AC:getAccountDtoById:\t" + accountId);
-		//AccountDto accountDto = accountService.getAccountDtoById(accountId);
+		// AccountDto accountDto = accountService.getAccountDtoById(accountId);
 		return new BaseResponse("No Code", HttpStatus.OK);
 	}
-	
+
 }

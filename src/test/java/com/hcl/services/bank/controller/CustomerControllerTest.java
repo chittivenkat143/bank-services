@@ -30,26 +30,26 @@ import com.hcl.services.bank.domain.dto.projection.CustomerView;
 import com.hcl.services.bank.exception.ResourceNotFoundException;
 import com.hcl.services.bank.service.impl.CustomerService;
 
-@ExtendWith({MockitoExtension.class})
+@ExtendWith({ MockitoExtension.class })
 class CustomerControllerTest {
-	
+
 	@Mock
 	private CustomerService customerService;
-	
+
 	@InjectMocks
 	private CustomerController customerController;
 
 	Customer customer;
 	CustomerRequestDTO customerDto;
-	
+
 	@Mock
 	BindingResult errors;
-	
+
 	@Mock
 	private List<CustomerView> customers = new ArrayList<>();
-	
+
 	@BeforeEach
-	void setUp() throws Exception {		
+	void setUp() throws Exception {
 		customerDto = new CustomerRequestDTO();
 		customerDto.setCustomerName("Pushpa Raj");
 		customerDto.setCustomerMobile("9876543210");
@@ -58,7 +58,7 @@ class CustomerControllerTest {
 		customerDto.setCustomerPassword("pushparaj123");
 		customerDto.setCustomerType(0);
 		customerDto.setCustomerStatus(0);
-		
+
 		customer = new Customer();
 		customer.setCustomerId(10001l);
 		customer.setCustomerName("Vishitha");
@@ -69,8 +69,6 @@ class CustomerControllerTest {
 		customer.setCustomerType(0);
 		customer.setCustomerStatus(0);
 	}
-	
-	
 
 	@Test
 	@DisplayName("Save Customer: Positive")
@@ -79,17 +77,16 @@ class CustomerControllerTest {
 		BaseResponse baseResponse = customerController.saveOrUpdateCustomer(customerDto, errors);
 		assertEquals(HttpStatus.CREATED, baseResponse.getStatus());
 	}
-	
+
 	@Test
 	@DisplayName("Save Customer: Negative")
 	void testSaveOrUpdateCustomer_NC() {
 		when(errors.hasErrors()).thenReturn(true);
-		BaseResponse baseResponse = customerController.saveOrUpdateCustomer(customerDto, errors);				
+		BaseResponse baseResponse = customerController.saveOrUpdateCustomer(customerDto, errors);
 		assertEquals(HttpStatus.BAD_REQUEST, baseResponse.getStatus());
 		verify(errors, times(1)).hasErrors();
 		assertTrue(errors.hasErrors());
 	}
-
 
 	@Test
 	@DisplayName("Get Customer By Id: Positive")
@@ -97,23 +94,23 @@ class CustomerControllerTest {
 		when(customerService.getCustomerById(any(Long.class))).thenReturn(customer);
 		BaseResponse customerBR = customerController.getCustomerById(10001l);
 		Customer customerRe = (Customer) customerBR.getResponse();
-		assertAll("customer", 
-					() -> assertEquals(10001l, customerRe.getCustomerId()),
-					() -> assertEquals("Vishitha", customerRe.getCustomerName()),
-					() -> assertEquals("9568568556", customerRe.getCustomerMobile()),
-					() -> assertEquals("vishitha@gmail.com", customerRe.getCustomerEmail()),
-					() -> assertEquals("vishitha", customerRe.getCustomerUsername()),
-					() -> assertEquals("password123", customerRe.getCustomerPassword()),
-					() -> assertEquals(0, customerRe.getCustomerType()),					
-					() -> assertEquals(0, customerRe.getCustomerStatus())				
-				);
+		assertAll("customer", () -> assertEquals(10001l, customerRe.getCustomerId()),
+				() -> assertEquals("Vishitha", customerRe.getCustomerName()),
+				() -> assertEquals("9568568556", customerRe.getCustomerMobile()),
+				() -> assertEquals("vishitha@gmail.com", customerRe.getCustomerEmail()),
+				() -> assertEquals("vishitha", customerRe.getCustomerUsername()),
+				() -> assertEquals("password123", customerRe.getCustomerPassword()),
+				() -> assertEquals(0, customerRe.getCustomerType()),
+				() -> assertEquals(0, customerRe.getCustomerStatus()));
 	}
-	
+
 	@Test
 	@DisplayName("Get Customer By Id: Negative")
 	void testGetCustomerById_NC() {
-		when(customerService.getCustomerById(any(Long.class))).thenThrow(new ResourceNotFoundException("Customer Not Found"));
-		RuntimeException exception = assertThrows(ResourceNotFoundException.class, ()->customerController.getCustomerById(10111l));
+		when(customerService.getCustomerById(any(Long.class)))
+				.thenThrow(new ResourceNotFoundException("Customer Not Found"));
+		RuntimeException exception = assertThrows(ResourceNotFoundException.class,
+				() -> customerController.getCustomerById(10111l));
 		assertEquals("Customer Not Found", exception.getMessage());
 	}
 

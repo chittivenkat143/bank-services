@@ -54,10 +54,10 @@ public class Customer {
 	@CreationTimestamp
 	@Column(name = "customerCreatedOn", updatable = false)
 	private LocalDateTime createDateTime;
-	
+
 	@UpdateTimestamp
 	@Column(name = "customerUpdatedOn")
-    private LocalDateTime updateDateTime;
+	private LocalDateTime updateDateTime;
 
 	@Column(name = "customerStatus")
 	private Integer customerStatus;// Active(0) , Inactive(1), Closed(2), Hold(3)

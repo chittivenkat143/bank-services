@@ -7,7 +7,7 @@ import com.github.javafaker.Faker;
 
 @Configuration
 public class ApplicationConfiguration {
-	
+
 	@Bean
 	public Faker getFaker() {
 		return new Faker();

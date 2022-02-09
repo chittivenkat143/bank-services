@@ -27,37 +27,40 @@ public class AccountService implements IAccountService {
 
 	@Autowired
 	private AccountRepository repository;
-	
+
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	@Autowired
 	private AccountTypeRepository repositoryAT;
-	
+
 	@Autowired
 	private MapperHelper mapper;
-	
+
 	@Autowired
 	private Faker faker;
 
 	@Override
 	public Account saveOrUpdateAccount(AccountRequestDTO accountRequestDTO) {
 		logger.info("AS:saveOrUpdateAccount");
-		Optional<Customer> customer =  customerRepository.findById(Long.valueOf(accountRequestDTO.getAccountCustomerId()));
-		if(customer.isPresent()) {
+		Optional<Customer> customer = customerRepository
+				.findById(Long.valueOf(accountRequestDTO.getAccountCustomerId()));
+		if (customer.isPresent()) {
 			logger.info("AS:saveOrUpdateAccount: Customer is Present");
 			accountRequestDTO.setAccountNumber(faker.number().digits(12));
 			Account account = mapper.toAccountEntity(accountRequestDTO);
-			Optional<AccountType> accountTypeOpt = repositoryAT.findById(Long.valueOf(accountRequestDTO.getAccountCode()));
-			if(accountTypeOpt.isPresent()) {
+			Optional<AccountType> accountTypeOpt = repositoryAT
+					.findById(Long.valueOf(accountRequestDTO.getAccountCode()));
+			if (accountTypeOpt.isPresent()) {
 				logger.info("AS:saveOrUpdateAccount: AccountType is Present");
 				account.setAccountType(accountTypeOpt.get());
 			}
 			account.setAccountCustomerId(customer.get());
 			return repository.save(account);
-		}else {
-			throw new ResourceNotFoundException("Customer details not found for Id:" + accountRequestDTO.getAccountCustomerId());
-		} 
+		} else {
+			throw new ResourceNotFoundException(
+					"Customer details not found for Id:" + accountRequestDTO.getAccountCustomerId());
+		}
 	}
 
 	@Override
@@ -77,16 +80,16 @@ public class AccountService implements IAccountService {
 	public List<Account> getAccountsByAccountType(Long accountType) {
 		logger.info("AS:getAccountsByAccountCode:" + accountType);
 		Optional<AccountType> accountTypeOpt = repositoryAT.findById(accountType);
-		if(accountTypeOpt.isPresent()) {
+		if (accountTypeOpt.isPresent()) {
 			return repository.findByAccountType(accountTypeOpt.get());
-		}else {
-			throw new ResourceNotFoundException("Accounts not found by type "+accountType);
+		} else {
+			throw new ResourceNotFoundException("Accounts not found by type " + accountType);
 		}
 	}
-	
+
 	@Override
 	public AccountDto getAccountDtoById(Long accountId) {
-		return null;//repository.findByAccountId(accountId);
+		return null;// repository.findByAccountId(accountId);
 	}
 
 }

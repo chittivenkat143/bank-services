@@ -38,7 +38,7 @@ public class Transaction {
 	@CreationTimestamp
 	@Column(name = "transactionOn", updatable = false)
 	private LocalDateTime transactionOn;
-	
+
 	@UpdateTimestamp
 	@Column(name = "transactionUpdatedOn")
 	private LocalDateTime transactionUpdatedOn;

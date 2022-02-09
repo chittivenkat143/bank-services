@@ -11,11 +11,11 @@ public interface ICustomerService {
 	public Customer saveOrUpdateCustomer(CustomerRequestDTO customerDto);
 
 	public Customer getCustomerById(Long customerId);
-	
+
 	public List<Customer> getCustomersByType(Integer customerType);
 
 	public CustomerView getCustomerByCustomerMobile(String mobileNo);
-	
+
 	public CustomerViewOpenProj getCustomerByEmail(String email);
 
 	public List<CustomerView> getCustomersByCustomerType(Integer customerType);

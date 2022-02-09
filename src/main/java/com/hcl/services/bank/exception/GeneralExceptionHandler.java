@@ -30,7 +30,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.hcl.services.bank.domain.dto.BaseResponse;
 
-
 @RestControllerAdvice
 public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 	public static final String ACCESS_DENIED = "Access denied!";
